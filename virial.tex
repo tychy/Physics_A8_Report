@@ -1,0 +1,41 @@
+\expandafter\ifx\csname ifdraft\endcsname\relax
+ \documentclass{jsarticle}
+ \begin{document}
+\fi
+\section  {導入}
+%銀河の速度からかみのけ座銀河団の質量出して、閑話休題したあとシミュレーションでビリアル定理確認
+このレポートでは、自己重力系のビリアル定理についてまとめる。まずN質点系におけるビリアル定理について重力相互作用を考慮に入れた運動方程式から導かれることを確認する。そして自己重力系としての銀河団について考え、かみのけ座銀河団の質量を概算する。その後、実際に多体系でのシミュレーションを行いビリアル定理を確認する。また、その過程において銀河団や数値計算法についてのいくつかの説明を加える。
+\section  {ビリアル定理}
+\subsection{多体系の運動方程式}
+多体系の運動方程式は以下のように書ける。
+\begin{equation}
+	m_i \frac{d^2x_i}{dt^2} = \sum_{i \neq j} f_{ij}
+\end{equation}	
+ここで$f_{ij}$は、$G$を重力定数として、
+\begin{equation}
+	f_{ij} = G m_i m_j \frac{x_j - x_i}{|x_j - x_i|^3}
+\end{equation}	
+この運動方程式は、二対問題、円制限三体問題などの特殊な三体問題、粒子数無限の極限における平衡解などでは解析的、近似的に解けるがほとんどの場合解けない。
+しかし、数値計算を用いれば原理的には必ず解を求めることができる。原理的にはと付け加えたのは実際には計算資源は有限であり、銀河の星の数は$10^{11}$のオーダーであるにも関わらず
+数値計算では高々$10^5$くらいの計算しかできない。
+また、数値計算で解のみを求めても物理的な理解にはあまり繋がらない。
+そこで、次の章での数値計算の理解を深めるために、この章ではまず無衝突ボルツマン方程式の空間的モーメントからビリアル定理を得る。
+また、ビリアル定理の直接的な応用としてかみのけ座の質量推定を行う。
+
+\subsection{無衝突ボルツマン方程式}
+以下では、$\Phi$を重力ポテンシャル、$f(\evec{x}, \evec{v}, t)$を6次元位相空間での分布関数とする。
+位相空間$\omega = (\evec{x}, \evec{v})$での流れの速度は、$\dot{\omega} = (\dot{\evec{x}}, \dot{\evec{v}})$で、
+連続の式は、
+\begin{equation}	
+	\frac{\partial f}{\partial t} + \sum_i \frac{\partial (f(\dot{\omega_i}))}{\partial \omega_i} = 0
+\end{equation}	
+であり、ここから無衝突ボルツマン方程式を得る。
+\begin{equation}	
+	\label{bolzman}
+	\frac{\partial f}{\partial t} + \evec{v}\cdot\nabla f - \nabla\Phi\cdot\frac{\partial f}{\partial \evec{v}}= 0
+\end{equation}	
+これは$f$のラグランジュ微分である。
+
+\expandafter\ifx\csname ifdraft\endcsname\relax
+  \end{document}
+\fi
