@@ -4,7 +4,7 @@
 \fi
 \section  {導入}
 %銀河の速度からかみのけ座銀河団の質量出して、閑話休題したあとシミュレーションでビリアル定理確認
-このレポートでは、自己重力系のビリアル定理についてまとめる。まずN質点系におけるビリアル定理について重力相互作用を考慮に入れた運動方程式から導かれることを確認する。そして自己重力系としての銀河団について考え、かみのけ座銀河団の質量を概算する。その後、実際に多体系でのシミュレーションを行いビリアル定理を確認する。また、その過程において銀河団や数値計算法についてのいくつかの説明を加える。
+このレポートでは、自己重力系のビリアル定理についてまとめる。まずN質点系におけるビリアル定理について重力相互作用を考慮に入れた運動方程式から導かれることを確認する。その後、実際に多体系でのシミュレーションを行いビリアル定理を確認する。また、その過程において数値計算法についてのいくつかの説明を加える。
 \section  {ビリアル定理}
 \subsection{多体系の運動方程式}
 多体系の運動方程式は以下のように書ける。
@@ -20,7 +20,6 @@
 数値計算では高々$10^5$くらいの計算しかできない。
 また、数値計算で解のみを求めても物理的な理解にはあまり繋がらない。
 そこで、次の章での数値計算の理解を深めるために、この章ではまず無衝突ボルツマン方程式の空間的モーメントからビリアル定理を得る。
-また、ビリアル定理の直接的な応用としてかみのけ座の質量推定を行う。
 
 \subsection{無衝突ボルツマン方程式}
 以下では、$\Phi$を重力ポテンシャル、$f(\evec{x}, \evec{v}, t)$を6次元位相空間での分布関数とする。
@@ -39,7 +38,39 @@
 ボルツマン方程式の速度のモーメントからはジーンズ方程式が得られる。
 0次の速度モーメントは、流体力学での連続の式、1次の速度モーメントはオイラー方程式、つまり運動方程式に対応する。ビリアル定理は、空間のモーメントから得られる。
 ここでボルツマン方程式は無衝突の場合を指すこととする。
-
+\ref{bolzman}　に$v_j$をかけて積分する。
+\begin{equation}
+    \rho = \int fd^3v
+\end{equation}
+\begin{equation}
+    \overline{v_i} = \frac{1}{\rho} \int fv_id^3v
+\end{equation}
+$\rho$を密度、$\overline{v_i}$を平均速度とすると、積分は
+\begin{align}
+    \frac{\partial}{\partial t} \int fv_j d^3v + \int v_i v_j \frac{\partial f}{\partial x_i} d3v
+    - \frac{\partial \Phi}{\partial x_i} \int v_j \frac{\partial f}{\partial v_i} d^3v = 0\\ 
+    \frac{\partial (\rho\overline{v_j})}{\partial t} + \frac{\partial (\rho \overline{v_iv_j})}{\partial x_i} - \rho\frac{\partial \Phi}{\partial x_i} = 0 
+\label{eq:2}
+\end{align}
+ここで、第一、二項は定義より、第三項には発散定理を用いた。
+次に、\ref{eq:2}に$x_k$をかけて空間積分をする。
+\begin{equation}
+    \int x_k \frac{\partial (\rho\overline{v_j})}{\partial t}d^3x = 
+    - \int x_k \frac{\partial \overline{v_iv_j}}{\partial x_j}
+    - \int \rho x_k \frac{\partial \Phi}{\partial x_j} d^3x
+\label{eq:3}
+\end{equation}
+定常状態の\ref{eq:3}のトレースを取ると、
+\begin{align}
+    - \int \rho \overline{v_j}d^3x = -2K\\
+    - \int \rho x_k \frac{\partial \Phi}{\partial x_k} d^3x = - \int \rho \Phi d^3x
+    \label{eq:4}
+\end{align}
+ここでi\ref{eq:4}に発散定理を用いた。また、\ref{eq:4}はポテンシャルエネルギーそのものである。
+そして定常状態であることから、\ref{eq:3}の左辺は0であるので、
+\begin{equation}
+    2K + W = 0
+\end{equation}
 となる。これは自己重力系のビリアル定理である。
 
 \section {N体シミュレーション}
@@ -92,7 +123,7 @@ $\frac{N(N-1)}{2}$の計算量で計算できる。
 シミュレーションの結果、図１のような結果が得られた。
 ビリアル比ー時間のグラフに注目すると、初期設定では0.1だったビリアル比が、
 2/3に漸近していることがわかる。これは自己重力系のビリアル定理を確認する。
-また、シンプレクティック積分をしているので平衡状態でのエネルギー誤差は微小である。
+また、シンプレクティック積分をしているので平衡状態でのエネルギー誤差は微小で、評価が必要だがタイムステップの二次程度になっている。
 \begin{figure}[b]
     \label{fig:result}
     \includegraphics[width=\textwidth,natwidth=1000,natheight=642]{fig.png}
